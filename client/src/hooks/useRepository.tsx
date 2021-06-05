@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useState, useContext } from "react";
 import { api } from "../service/api";
+import { toast } from "react-toastify";
 
 interface RepositoryProviderProps {
   children: ReactNode;
@@ -39,7 +40,7 @@ export function RepositoryProvider({ children }: RepositoryProviderProps) {
       setRepositoriesTotal(response.data.data.count);
 
     } catch (error) {
-      console.error(error);
+      toast.error("Error no carregamento dos repositorios");
     }
   }
 
