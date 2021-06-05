@@ -5,9 +5,9 @@ module.exports = {
     try {
       const { page } = req.query;
 
-      const pageSize = 2;
+      const pageSize = 4;
       const visibility = "is:public";
-      const sort = "sort:updated-desc";
+      const sort = "sort:interactions-desc";
 
       const url = "https://api.github.com/search/repositories";
 
@@ -26,7 +26,7 @@ module.exports = {
         });
       }
 
-      if (page >= 1000/pageSize) {
+      if (page >= 1000 / pageSize) {
         return res.status(400).json({
           status: "failure",
           url: "https://docs.github.com/v3/search/",
@@ -35,7 +35,7 @@ module.exports = {
       }
 
       const data = await response.json();
-      const repositoryList = {};
+      const repositoryList = [];
       var index = 0;
 
       console.log("Total of repositories: ", data);
@@ -65,7 +65,7 @@ module.exports = {
         index++;
       }
 
-      return res.status(200).json(repositoryList);
+      return res.status(200).json({ data: { repositoryList, count: 1000 } });
     } catch (error) {
       res.status(500).json({
         status: "failure",
