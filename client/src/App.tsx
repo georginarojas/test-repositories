@@ -1,16 +1,12 @@
-import { Flex, Stack, Text } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { Flex, Text } from "@chakra-ui/react";
 import { CardRepository } from "./components/CardRepository";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
-import Demo from "./components/Pagination/PaginationItem";
-import { api } from "./service/api";
+import Pagination from "./components/Pagination";
+import { useRepository } from "./hooks/useRepository";
 
 function App() {
-  // useEffect(() => {
-  //   api.get("/repositories").then((response) => console.log(response.data));
-  // }, []);
-
+  const { repositories } = useRepository();
   return (
     <Flex width="100vw" height="100vh" direction="column" align="center">
       <Header />
@@ -33,15 +29,24 @@ function App() {
         </Text>
       </Flex>
 
-      <Stack width="50%" marginTop="2rem" marginBottom="3.5rem">
-        <CardRepository />
-        <CardRepository />
-        <CardRepository />
-        <CardRepository />
-      </Stack>
-
-      <Demo/>
-
+      <Flex
+        direction="column"
+        width="50%"
+        marginTop="2rem"
+        marginBottom="3.5rem"
+        align="center"
+        justify="center"
+      >
+        {repositories.map((repository, index) => (
+          <CardRepository
+            key={index}
+            name={repository.name}
+            description={repository.description}
+            url={repository.url}
+          />
+        ))}
+        <Pagination />
+      </Flex>
 
       <Footer />
     </Flex>
