@@ -14,12 +14,12 @@ const Pagination: FC = () => {
   const { getRepositories, repositoriesTotal } = useRepository();
 
   // constants
-  const outerLimit = 2;
-  const innerLimit = 2;
+  const outerLimit = 1;
+  const innerLimit = 1;
 
   const {
     pagesQuantity,
-    offset,
+    // offset,
     currentPage,
     setCurrentPage,
     isDisabled,
@@ -35,10 +35,10 @@ const Pagination: FC = () => {
 
   useEffect(() => {
     console.log(
-      `CurrentPage: ${currentPage} \n pageSize: ${pageSize} \n offset: ${offset}`
+      `CurrentPage: ${currentPage} \n pageSize: ${pageSize}`
     );
     getRepositories(currentPage);
-  }, [currentPage, pageSize, offset]);
+  }, [currentPage, pageSize]);
 
   // styles
   const baseStyles: ButtonProps = {
@@ -71,7 +71,6 @@ const Pagination: FC = () => {
   const handlePageChange = (nextPage: number) => {
     // -> request new data using the page number
     setCurrentPage(nextPage);
-    console.log("request new data with ->", nextPage);
   };
 
   return (
