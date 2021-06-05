@@ -1,42 +1,70 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
-import React from "react";
+import { Box, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
 
-export function CardRepository() {
+
+
+interface Repository {
+  name: String;
+  description: string;
+  url: string;
+}
+
+export function CardRepository({ name, description, url }: Repository) {
   return (
-    <Flex
-      direction="row"
-      align="center"
-      justify="space-between"
-      marginBottom="1rem"
-    >
-      <Flex direction="column" borderBottom="1px solid" width="75%">
-        <Text
-          color="blue.500"
-          fontSize="1.15rem"
-          fontWeight="bold"
-          marginBottom="0.25rem"
-        >
-          Name Repository
-        </Text>
-        <Text color="gray.700" marginBottom="1.25rem">
-          Description
-        </Text>
-      </Flex>
-
-      <Box
-        as="button"
-        borderRadius="md"
-        bg="blue.400"
-        color="white"
-        height="2.75rem"
-        paddingX="0.75rem"
-        marginLeft="1.5rem"
-        _hover={{
-          bg: "blue.500",
-        }}
+    <>
+      <Grid
+        h="75px"
+        width="100%"
+        templateRows="repeat(1, 1fr)"
+        templateColumns="repeat(4, 1fr)"
+        gap={["4", "6", "8"]}
+        marginBottom="1rem"
       >
-        Compartilhar
-      </Box>
-    </Flex>
+        <GridItem colSpan={3} borderBottom="1px solid">
+          <Flex direction="column">
+            <Text
+              color="blue.500"
+              fontSize="1.15rem"
+              fontWeight="bold"
+              marginTop="0.25rem"
+              marginBottom="0.15rem"
+              isTruncated
+            >
+              {name}
+            </Text>
+            <Text
+              color="gray.600"
+              fontSize="0.875rem"
+              marginBottom="1.25rem"
+              isTruncated
+            >
+              {description}
+            </Text>
+          </Flex>
+        </GridItem>
+
+        <GridItem
+          colSpan={1}
+          alignItems="center"
+          display="flex"
+          justifyContent="center"
+          justifySelf="start"
+        >
+          <Box
+            as="button"
+            borderRadius="md"
+            bg="blue.400"
+            color="white"
+            height="2.75rem"
+            paddingX="0.75rem"
+            fontSize="0.8rem"
+            _hover={{
+              bg: "blue.500",
+            }}
+          >
+            Compartilhar
+          </Box>
+        </GridItem>
+      </Grid>
+    </>
   );
 }
