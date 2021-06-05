@@ -1,4 +1,4 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Spinner, Text } from "@chakra-ui/react";
 import { CardRepository } from "./components/CardRepository";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
@@ -6,7 +6,8 @@ import Pagination from "./components/Pagination";
 import { useRepository } from "./hooks/useRepository";
 
 function App() {
-  const { repositories } = useRepository();
+  const { repositories, isLoading } = useRepository();
+  console.log("APP: ", isLoading)
   return (
     <Flex width="100vw" height="100vh" direction="column" align="center">
       <Header />
@@ -28,6 +29,10 @@ function App() {
           recomendar para outras pessoas!
         </Text>
       </Flex>
+
+      {isLoading &&
+        <Spinner size="lg" color="gray.500" ml="4"/>
+      }
 
       <Flex
         direction="column"

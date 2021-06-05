@@ -15,6 +15,7 @@ interface Repository {
 interface RepositoryContextData {
   repositories: Repository[];
   repositoriesTotal: number | undefined;
+  isLoading: boolean;
   getRepositories: (page: number) => void;
 }
 
@@ -26,18 +27,21 @@ export function RepositoryProvider({ children }: RepositoryProviderProps) {
   const [repositories, setRepositories] = useState<Repository[]>([]);
   const [repositoriesTotal, setRepositoriesTotal] =
     useState<number | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function getRepositories(page: number) {
     try {
+      console.log("HOOKS ", isLoading, page);
+      setIsLoading(true);
       const response = await api.get(`/repositories?page=${page}`);
 
       if (!response.data) {
         throw new Error();
       }
 
-      // console.log("HOOKS ", response.data.data.repositoryList);
       setRepositories(response.data.data.repositoryList);
       setRepositoriesTotal(response.data.data.count);
+      setIsLoading(false);
 
     } catch (error) {
       toast.error("Error no carregamento dos repositorios");
@@ -46,7 +50,7 @@ export function RepositoryProvider({ children }: RepositoryProviderProps) {
 
   return (
     <RepositoryContext.Provider
-      value={{ repositories, repositoriesTotal, getRepositories }}
+      value={{ repositories, repositoriesTotal, getRepositories, isLoading }}
     >
       {children}
     </RepositoryContext.Provider>
