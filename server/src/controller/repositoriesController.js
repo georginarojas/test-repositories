@@ -1,4 +1,5 @@
 const fetch = require("node-fetch");
+const nodemail = require("../nodemail");
 
 module.exports = {
   async index(req, res) {
@@ -46,22 +47,6 @@ module.exports = {
           description: repo.description,
           url: repo.url,
         };
-
-        console.log("Name ", repo.name);
-        console.log("Description ", repo.description);
-        console.log("Url ", repo.html_url);
-
-        console.log(
-          "RepositoryList ",
-          "\n",
-          repositoryList[index].name,
-          "\n",
-          repositoryList[index].description,
-          "\n",
-          repositoryList[index].url,
-          "\n"
-        );
-
         index++;
       }
 
@@ -72,5 +57,19 @@ module.exports = {
         error: error.message,
       });
     }
+  },
+
+  async send(req, res) {
+    // try {
+    const name = req.body.name;
+    const description = req.body.description;
+    const url = req.body.url;
+    const email = req.body.email;
+    // console.log("Controller ", req.body);
+
+    nodemail(email, name, description, url)
+      .then((response) => {console.log("CONTROLLER ", response); return res.status(200).json(response)})
+      .catch((error) => {console.log("CONTROLLER ", error); return res.status(400).json(error)});
+
   },
 };

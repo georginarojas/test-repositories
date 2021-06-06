@@ -2,11 +2,10 @@
 
 const express = require('express');
 const cors = require('cors');
+const dotenv = require('dotenv');
+dotenv.config();
 
-// const http = require('http');
-// const hostname = require('hostname');
-const port = 8080;
-
+const port = process.env.PORT;
 
 // Initializing the App 
 const app = express();
@@ -18,15 +17,3 @@ app.use(cors());
 app.use('/api', require('./src/router') );
 
 app.listen(port);
-
-
-// const express = require("express")
-// var app = express()
-
-// app.get("/",function(request,response){
-// response.send("Hello World!")
-// })
-
-// app.listen(10000, function () {
-// console.log("Started application on port %d", 10000)
-// });
