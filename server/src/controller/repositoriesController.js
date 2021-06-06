@@ -63,6 +63,12 @@ module.exports = {
     const email = req.body.email;
     // console.log("Controller ", req.body);
 
+    let re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(email)) {
+      return res.status(400).json({ message: "Invalid email" });
+    }
+
     nodemail(email, name, description, url)
       .then((response) => {
         console.log("CONTROLLER ", response);
