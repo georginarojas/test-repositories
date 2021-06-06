@@ -66,17 +66,22 @@ module.exports = {
     let re =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!re.test(email)) {
-      return res.status(400).json({ message: "Invalid email" });
+      return res.status(400).json({
+        status: "failure",
+        error: "Invalid email",
+      });
     }
 
     nodemail(email, name, description, url)
       .then((response) => {
         console.log("CONTROLLER ", response);
-        return res.status(200).json(response);
+        return res
+          .status(200)
+          .json({ status: "success", message: "E-mail send" });
       })
       .catch((error) => {
         console.log("CONTROLLER ", error);
-        return res.status(400).json(error);
+        return res.status(400).json({ status: "failure", error });
       });
   },
 };
