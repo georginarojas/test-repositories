@@ -14,10 +14,6 @@ module.exports = {
 
       const apiCall = `${url}?q=${visibility}+${sort}&per_page=${pageSize}&page=${page}`;
 
-      // const url = "https://api.github.com/orgs/rocketseat/repos"
-
-      // const apiCall = `${url}?${sort}&per_page=${pageSize}&page=${page}`;
-
       const response = await fetch(apiCall);
 
       if (response == null) {
@@ -68,8 +64,13 @@ module.exports = {
     // console.log("Controller ", req.body);
 
     nodemail(email, name, description, url)
-      .then((response) => {console.log("CONTROLLER ", response); return res.status(200).json(response)})
-      .catch((error) => {console.log("CONTROLLER ", error); return res.status(400).json(error)});
-
+      .then((response) => {
+        console.log("CONTROLLER ", response);
+        return res.status(200).json(response);
+      })
+      .catch((error) => {
+        console.log("CONTROLLER ", error);
+        return res.status(400).json(error);
+      });
   },
 };
