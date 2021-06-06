@@ -1,6 +1,12 @@
-import { Box, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
-
-
+import {
+  Box,
+  Flex,
+  Grid,
+  GridItem,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { Modal } from "./Modal";
 
 interface Repository {
   name: String;
@@ -9,6 +15,9 @@ interface Repository {
 }
 
 export function CardRepository({ name, description, url }: Repository) {
+  const { onOpen, isOpen } = useDisclosure();
+  // console.log("CARD: onOpen ", onOpen);
+  console.log("isOpen ", isOpen);
   return (
     <>
       <Grid
@@ -49,20 +58,7 @@ export function CardRepository({ name, description, url }: Repository) {
           justifyContent="center"
           justifySelf="start"
         >
-          <Box
-            as="button"
-            borderRadius="md"
-            bg="blue.400"
-            color="white"
-            height="2.75rem"
-            paddingX="0.75rem"
-            fontSize="0.8rem"
-            _hover={{
-              bg: "blue.500",
-            }}
-          >
-            Compartilhar
-          </Box>
+          <Modal />
         </GridItem>
       </Grid>
     </>

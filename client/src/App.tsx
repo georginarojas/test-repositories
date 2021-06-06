@@ -51,8 +51,7 @@ function App() {
           />
         ))}
         <Pagination />
-      </Flex>
-
+      </Flex>    
       <Footer />
     </Flex>
   );
