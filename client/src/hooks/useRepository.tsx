@@ -40,8 +40,6 @@ export function RepositoryProvider({ children }: RepositoryProviderProps) {
   async function getRepositories(page: number) {
     try {
       setIsLoadingGet(true);
-      console.log("PAGE ", page, isLoadingGet);
-
       const response = await api.get(`/repositories?page=${page}`);
       setIsLoadingGet(false);
 

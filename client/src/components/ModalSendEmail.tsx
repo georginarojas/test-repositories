@@ -86,6 +86,7 @@ export function ModalSendEmail({
         finalFocusRef={finalRef}
         isOpen={isOpen}
         onClose={onClose}
+        isCentered
       >
         <ModalOverlay />
 

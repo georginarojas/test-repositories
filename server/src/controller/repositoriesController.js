@@ -35,7 +35,6 @@ module.exports = {
       const repositoryList = [];
       var index = 0;
 
-      console.log("Total of repositories: ", data);
       for (repo of data.items) {
         // for (repo of data) {
         repositoryList[index] = {
@@ -75,7 +74,6 @@ module.exports = {
 
       const response = await nodemail(email, name, description, url);
 
-      console.log("Controller ** ", response);
 
       if (!response) {
         return res.json({ status: "failure", message: "E-mail not send" });

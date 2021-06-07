@@ -15,11 +15,6 @@ function App() {
 
   useEffect(() => {
     getRepositories(currentPg);
-    // .then((response) => {
-    //   if (response === undefined) {
-    //     // toast.error("Não foi possível fazer a conexão.");
-    //   }
-    // });
   }, [currentPg]);
 
   return (
@@ -36,7 +31,7 @@ function App() {
         draggable
         pauseOnHover
       />
-      
+
       <Flex
         align="center"
         justify="center"

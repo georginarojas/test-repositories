@@ -20,7 +20,7 @@ export function ModalMessage({
 }: ModalMessageProps) {
   return (
     <>
-      <ModalChakra isOpen={isOpen} onClose={onClose}>
+      <ModalChakra isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
