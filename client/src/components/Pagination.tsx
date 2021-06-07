@@ -34,9 +34,6 @@ const Pagination: FC = () => {
   });
 
   useEffect(() => {
-    console.log(
-      `CurrentPage: ${currentPage} \n pageSize: ${pageSize}`
-    );
     getRepositories(currentPage);
   }, [currentPage, pageSize]);
 

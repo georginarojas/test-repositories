@@ -6,8 +6,7 @@ import Pagination from "./components/Pagination";
 import { useRepository } from "./hooks/useRepository";
 
 function App() {
-  const { repositories, isLoading } = useRepository();
-  console.log("APP: ", isLoading)
+  const { repositories, isLoadingGet } = useRepository();
   return (
     <Flex width="100vw" height="100vh" direction="column" align="center">
       <Header />
@@ -30,7 +29,7 @@ function App() {
         </Text>
       </Flex>
 
-      {isLoading &&
+      {isLoadingGet &&
         <Spinner size="lg" color="gray.500" ml="4"/>
       }
 

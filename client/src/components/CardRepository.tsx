@@ -1,23 +1,20 @@
-import {
-  Box,
-  Flex,
-  Grid,
-  GridItem,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { Modal } from "./Modal";
+import { Box, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
+import { useState } from "react";
+import { ModalSendEmail } from "./ModalSendEmail";
+import { ModalMessage } from "./ModalMessage";
 
 interface Repository {
-  name: String;
+  name: string;
   description: string;
   url: string;
 }
 
 export function CardRepository({ name, description, url }: Repository) {
-  const { onOpen, isOpen } = useDisclosure();
-  // console.log("CARD: onOpen ", onOpen);
-  console.log("isOpen ", isOpen);
+  // const { onOpen, isOpen, onClose } = useDisclosure();
+  const [isModalMailOpen, setIsModalMailOpen] = useState<boolean>(false);
+  const [isModalMessageOpen, setIsModalMessageOpen] = useState<boolean>(false);
+  const [statusEmail, setStatusEmail] = useState<string | undefined>(undefined);
+
   return (
     <>
       <Grid
@@ -58,7 +55,39 @@ export function CardRepository({ name, description, url }: Repository) {
           justifyContent="center"
           justifySelf="start"
         >
-          <Modal />
+          <Box
+            as="button"
+            borderRadius="md"
+            bg="blue.400"
+            color="white"
+            height="2.75rem"
+            paddingX="0.75rem"
+            fontSize="0.8rem"
+            _hover={{
+              bg: "blue.500",
+            }}
+            onClick={() => setIsModalMailOpen(true)}
+          >
+            Compartilhar
+          </Box>
+
+          <ModalSendEmail
+            name={name}
+            description={description}
+            url={url}
+            isOpen={isModalMailOpen}
+            onClose={() => setIsModalMailOpen(false)}
+            onOpenModalMessage={(status) => {
+              setIsModalMessageOpen(true);
+              setStatusEmail(status);
+            }}
+          />
+
+          <ModalMessage
+            onClose={() => setIsModalMessageOpen(false)}
+            isOpen={isModalMessageOpen}
+            statusEmail={statusEmail}
+          />
         </GridItem>
       </Grid>
     </>

@@ -46,7 +46,7 @@ module.exports = {
         index++;
       }
 
-      return res.status(200).json({ data: { repositoryList, count: 1000 } });
+      return res.status(200).json({ data: { repositoryList, count: 999 } });
     } catch (error) {
       res.status(500).json({
         status: "failure",
@@ -56,32 +56,49 @@ module.exports = {
   },
 
   async send(req, res) {
-    // try {
-    const name = req.body.name;
-    const description = req.body.description;
-    const url = req.body.url;
-    const email = req.body.email;
-    // console.log("Controller ", req.body);
+    try {
+      const name = req.body.name;
+      const description = req.body.description;
+      const url = req.body.url;
+      const email = req.body.email;
 
-    let re =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (!re.test(email)) {
-      return res.status(400).json({
+      let re =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!re.test(email)) {
+        return res.status(400).json({
+          status: "failure",
+          error: "Invalid email",
+        });
+      }
+
+      // nodemail(email, name, description, url)
+      //   .then((response) => {
+      //     console.log("CONTROLLER ", response);
+      //     return res
+      //       .status(200)
+      //       .json({ status: "success", message: "E-mail send" });
+      //   })
+      //   .catch((error) => {
+      //     console.log("CONTROLLER ", error);
+      //     return res.status(400).json(error);
+      //   });
+
+      const response = await nodemail(email, name, description, url);
+
+      console.log("Controller ** ", response);
+
+      if (!response) {
+        return res.json({ status: "failure", message: "E-mail not send" });
+      }
+
+      return res
+        .status(200)
+        .json({ status: "success", message: "E-mail send" });
+    } catch (error) {
+      res.status(500).json({
         status: "failure",
-        error: "Invalid email",
+        error: error.message,
       });
     }
-
-    nodemail(email, name, description, url)
-      .then((response) => {
-        console.log("CONTROLLER ", response);
-        return res
-          .status(200)
-          .json({ status: "success", message: "E-mail send" });
-      })
-      .catch((error) => {
-        console.log("CONTROLLER ", error);
-        return res.status(400).json({ status: "failure", error });
-      });
   },
 };

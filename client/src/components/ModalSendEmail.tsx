@@ -1,6 +1,5 @@
 import {
   Button,
-  useDisclosure,
   Modal as ModalChakra,
   ModalOverlay,
   ModalContent,
@@ -10,27 +9,62 @@ import {
   FormLabel,
   Input,
   ModalFooter,
-  Box,
   Text,
+  InputGroup,
+  Spinner,
+  InputRightElement,
 } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
+import { useRepository } from "../hooks/useRepository";
 
-export function Modal() {
+interface ModalSendEmailProps {
+  name: string;
+  description: string;
+  url: string;
+  isOpen: boolean;
+  onClose: () => void;
+  onOpenModalMessage: (status: string) => void;
+}
+
+export function ModalSendEmail({
+  name,
+  description,
+  url,
+  isOpen,
+  onClose,
+  onOpenModalMessage,
+}: ModalSendEmailProps) {
   const formRef = useRef(null);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [email, setEmail] = useState<string>();
+  const [email, setEmail] = useState<string>("");
   const [isValidEmail, setIsValidEmail] = useState<boolean>(true);
 
   const initialRef = React.useRef<HTMLInputElement>(null);
   const finalRef = React.useRef<HTMLInputElement>(null);
-  console.log("Modal isOpen ", isOpen);
 
-  const handleSubmit = (event: React.SyntheticEvent) => {
+  const { postRepositoryAndSendEmail, isLoadingPost, status } = useRepository();
+
+  const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    console.log("EMAIL ", email);
-    if (!validateEmail()) {
-      console.log("Digite um email valido");
+    try {
+      if (!validateEmail()) {
+        throw new Error("Invalid email");
+      }
+
+      const response = await postRepositoryAndSendEmail(
+        name,
+        description,
+        url,
+        email
+      );
+      console.log("*****STATUS**** ", response);
+      if (response) {
+        console.log("close***");
+        onClose();
+        onOpenModalMessage(response);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -49,21 +83,6 @@ export function Modal() {
 
   return (
     <>
-      <Box
-        as="button"
-        borderRadius="md"
-        bg="blue.400"
-        color="white"
-        height="2.75rem"
-        paddingX="0.75rem"
-        fontSize="0.8rem"
-        _hover={{
-          bg: "blue.500",
-        }}
-        onClick={onOpen}
-      >
-        Compartilhar
-      </Box>
       <ModalChakra
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
@@ -78,14 +97,22 @@ export function Modal() {
             <ModalBody pb={6} marginTop="2.5rem">
               <FormControl isRequired>
                 <FormLabel>Email</FormLabel>
-                <Input
-                  type="email"
-                  name="email"
-                  ref={initialRef}
-                  placeholder="Digite o email do destinatário..."
-                  onChange={(event) => setEmail(event.currentTarget.value)}
-                  onFocus={() => setIsValidEmail(true)}
-                />
+                <InputGroup>
+                  <Input
+                    type="email"
+                    name="email"
+                    ref={initialRef}
+                    placeholder="Digite o email do destinatário..."
+                    onChange={(event) => setEmail(event.currentTarget.value)}
+                    onFocus={() => setIsValidEmail(true)}
+                  />
+                  {isLoadingPost && (
+                    <InputRightElement
+                      children={<Spinner size="sm" color="gray.500" ml="4" />}
+                    />
+                  )}
+                </InputGroup>
+
                 {!isValidEmail && (
                   <Text
                     fontSize="0.75rem"
