@@ -1,1 +1,1 @@
-# respositories
+# repositories
