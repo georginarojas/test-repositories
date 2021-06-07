@@ -10,7 +10,6 @@ interface Repository {
 }
 
 export function CardRepository({ name, description, url }: Repository) {
-  // const { onOpen, isOpen, onClose } = useDisclosure();
   const [isModalMailOpen, setIsModalMailOpen] = useState<boolean>(false);
   const [isModalMessageOpen, setIsModalMessageOpen] = useState<boolean>(false);
   const [statusEmail, setStatusEmail] = useState<string | undefined>(undefined);

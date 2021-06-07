@@ -1,7 +1,6 @@
 import { createContext, ReactNode, useState, useContext } from "react";
 import { api } from "../service/api";
 import { toast } from "react-toastify";
-import { error } from "console";
 
 interface RepositoryProviderProps {
   children: ReactNode;
@@ -15,10 +14,9 @@ interface Repository {
 
 interface RepositoryContextData {
   repositories: Repository[];
-  repositoriesTotal: number | undefined;
+  repositoriesTotal: number;
   isLoadingGet: boolean;
   isLoadingPost: boolean;
-  status: string | undefined;
   getRepositories: (page: number) => void;
   postRepositoryAndSendEmail: (
     name: string,
@@ -35,26 +33,28 @@ export const RepositoryContext = createContext<RepositoryContextData>(
 export function RepositoryProvider({ children }: RepositoryProviderProps) {
   const [repositories, setRepositories] = useState<Repository[]>([]);
   const [repositoriesTotal, setRepositoriesTotal] =
-    useState<number | undefined>(undefined);
+    useState<number>(0);
   const [isLoadingGet, setIsLoadingGet] = useState<boolean>(false);
   const [isLoadingPost, setIsLoadingPost] = useState<boolean>(false);
-  const [status, setStatus] = useState<string | undefined>(undefined);
 
   async function getRepositories(page: number) {
     try {
-      console.log("PAGE ", page);
       setIsLoadingGet(true);
+      console.log("PAGE ", page, isLoadingGet);
+
       const response = await api.get(`/repositories?page=${page}`);
       setIsLoadingGet(false);
 
-      if (!response.data) {
-        throw new Error();
+      
+      if (response.data.status !== "success") {
+        toast.error("Error no carregamento dos repositórios");
       }
 
       setRepositories(response.data.data.repositoryList);
       setRepositoriesTotal(response.data.data.count);
     } catch (error) {
-      toast.error("Error no carregamento dos repositórios");
+      setIsLoadingGet(false);
+      toast.error("Error no servidor");
     }
   }
 
@@ -74,7 +74,6 @@ export function RepositoryProvider({ children }: RepositoryProviderProps) {
       });
       setIsLoadingPost(false);
 
-      console.log("hooks response ++++", response);
 
       if (response.data.status !== "success") {
         return response.data.status;
@@ -95,7 +94,6 @@ export function RepositoryProvider({ children }: RepositoryProviderProps) {
         getRepositories,
         isLoadingGet,
         isLoadingPost,
-        status,
         postRepositoryAndSendEmail,
       }}
     >

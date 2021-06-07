@@ -1,15 +1,42 @@
 import { Flex, Spinner, Text } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 import { CardRepository } from "./components/CardRepository";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
-import Pagination from "./components/Pagination";
+import { Pagination } from "./components/Pagination";
 import { useRepository } from "./hooks/useRepository";
 
 function App() {
-  const { repositories, isLoadingGet } = useRepository();
+  const { repositories, isLoadingGet, getRepositories } = useRepository();
+  const [currentPg, setcurrentPg] = useState<number>(1);
+
+  useEffect(() => {
+    getRepositories(currentPg);
+    // .then((response) => {
+    //   if (response === undefined) {
+    //     // toast.error("Não foi possível fazer a conexão.");
+    //   }
+    // });
+  }, [currentPg]);
+
   return (
     <Flex width="100vw" height="100vh" direction="column" align="center">
       <Header />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      
       <Flex
         align="center"
         justify="center"
@@ -29,9 +56,7 @@ function App() {
         </Text>
       </Flex>
 
-      {isLoadingGet &&
-        <Spinner size="lg" color="gray.500" ml="4"/>
-      }
+      {isLoadingGet && <Spinner size="lg" color="gray.500" ml="4" />}
 
       <Flex
         direction="column"
@@ -49,8 +74,10 @@ function App() {
             url={repository.url}
           />
         ))}
-        <Pagination />
-      </Flex>    
+        <Pagination
+          handleCurrentPage={(currentPg: number) => setcurrentPg(currentPg)}
+        />
+      </Flex>
       <Footer />
     </Flex>
   );

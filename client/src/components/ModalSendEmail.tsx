@@ -42,7 +42,7 @@ export function ModalSendEmail({
   const initialRef = React.useRef<HTMLInputElement>(null);
   const finalRef = React.useRef<HTMLInputElement>(null);
 
-  const { postRepositoryAndSendEmail, isLoadingPost, status } = useRepository();
+  const { postRepositoryAndSendEmail, isLoadingPost } = useRepository();
 
   const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -57,9 +57,7 @@ export function ModalSendEmail({
         url,
         email
       );
-      console.log("*****STATUS**** ", response);
       if (response) {
-        console.log("close***");
         onClose();
         onOpenModalMessage(response);
       }

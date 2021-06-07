@@ -5,10 +5,7 @@ import {
   ModalCloseButton,
   ModalBody,
   Text,
-  Spinner,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { useRepository } from "../hooks/useRepository";
 
 interface ModalMessageProps {
   isOpen: boolean;

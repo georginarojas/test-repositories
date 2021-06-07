@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { useEffect } from "react";
 import { ButtonProps, ChakraProvider } from "@chakra-ui/react";
 import {
   Paginator,
@@ -10,16 +10,18 @@ import {
 } from "chakra-paginator";
 import { useRepository } from "../hooks/useRepository";
 
-const Pagination: FC = () => {
-  const { getRepositories, repositoriesTotal } = useRepository();
+interface PaginationProps {
+  handleCurrentPage: (currentPg: number) => void;
+}
+
+export function Pagination({handleCurrentPage}: PaginationProps) {
+  const { repositoriesTotal } = useRepository();
 
   // constants
   const outerLimit = 1;
   const innerLimit = 1;
 
   const {
-    pagesQuantity,
-    // offset,
     currentPage,
     setCurrentPage,
     isDisabled,
@@ -33,9 +35,11 @@ const Pagination: FC = () => {
     },
   });
 
+  const pagesTotal = Math.floor(repositoriesTotal / pageSize);
+
   useEffect(() => {
-    getRepositories(currentPage);
-  }, [currentPage, pageSize]);
+    handleCurrentPage(currentPage);
+  }, [currentPage])
 
   // styles
   const baseStyles: ButtonProps = {
@@ -64,6 +68,7 @@ const Pagination: FC = () => {
     bg: "gray.300",
   };
 
+
   // handlers
   const handlePageChange = (nextPage: number) => {
     // -> request new data using the page number
@@ -80,7 +85,7 @@ const Pagination: FC = () => {
         outerLimit={outerLimit}
         normalStyles={normalStyles}
         separatorStyles={separatorStyles}
-        pagesQuantity={pagesQuantity}
+        pagesQuantity={pagesTotal}
         onPageChange={handlePageChange}
       >
         <Container
@@ -97,6 +102,5 @@ const Pagination: FC = () => {
       </Paginator>
     </ChakraProvider>
   );
-};
+}
 
-export default Pagination;

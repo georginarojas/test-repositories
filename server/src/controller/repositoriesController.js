@@ -17,14 +17,14 @@ module.exports = {
       const response = await fetch(apiCall);
 
       if (response == null) {
-        return res.status(404).json({
+        return res.json({
           status: "failure",
           error: "Was not possible loading the repositories",
         });
       }
 
       if (page >= 1000 / pageSize) {
-        return res.status(400).json({
+        return res.json({
           status: "failure",
           url: "https://docs.github.com/v3/search/",
           error: "Only the first 1000 search results are available",
@@ -46,7 +46,9 @@ module.exports = {
         index++;
       }
 
-      return res.status(200).json({ data: { repositoryList, count: 999 } });
+      return res
+        .status(200)
+        .json({ status: "success", data: { repositoryList, count: 999 } });
     } catch (error) {
       res.status(500).json({
         status: "failure",
@@ -70,18 +72,6 @@ module.exports = {
           error: "Invalid email",
         });
       }
-
-      // nodemail(email, name, description, url)
-      //   .then((response) => {
-      //     console.log("CONTROLLER ", response);
-      //     return res
-      //       .status(200)
-      //       .json({ status: "success", message: "E-mail send" });
-      //   })
-      //   .catch((error) => {
-      //     console.log("CONTROLLER ", error);
-      //     return res.status(400).json(error);
-      //   });
 
       const response = await nodemail(email, name, description, url);
 
