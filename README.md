@@ -6,7 +6,7 @@
   <a href="#-functionalities">Functionalities</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 
 </p>
 
-![Demo WorldTrip]()
+![Demo GetRepository](https://j.gifs.com/Qk1N40.gif)
 
 ## Description
 GetRepository is an application that shows  Github's public repositories. It is sorted by the number of interactions showing four repositories by page. Besides, the user can share and send by email some information like (link, name, and description) of the repository selected.
