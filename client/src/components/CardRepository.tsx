@@ -52,7 +52,7 @@ export function CardRepository({ name, description, url }: Repository) {
           alignItems="center"
           display="flex"
           justifyContent="center"
-          justifySelf="start"
+          justifySelf="end"
         >
           <Box
             as="button"
