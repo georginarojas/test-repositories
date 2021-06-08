@@ -1,7 +1,7 @@
 import { Flex, Spinner, Text } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { CardRepository } from "./components/CardRepository";
 import { Footer } from "./components/Footer";

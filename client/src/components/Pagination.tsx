@@ -39,7 +39,7 @@ export function Pagination({handleCurrentPage}: PaginationProps) {
 
   useEffect(() => {
     handleCurrentPage(currentPage);
-  }, [currentPage])
+  }, [currentPage, handleCurrentPage]);
 
   // styles
   const baseStyles: ButtonProps = {
