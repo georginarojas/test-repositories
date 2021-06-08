@@ -36,11 +36,10 @@ module.exports = {
       var index = 0;
 
       for (repo of data.items) {
-        // for (repo of data) {
         repositoryList[index] = {
           name: repo.name,
           description: repo.description,
-          url: repo.url,
+          url: repo.html_url,
         };
         index++;
       }
