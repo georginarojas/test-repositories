@@ -30,13 +30,17 @@ GetRepository is an application that shows  Github's public repositories. It is 
 
 ## How to run
 1. Clone the repository.
-2. Create an account in mailgun and register the recipients' email (this step is required for the feature: send repository by e-mail).
-     1. Edit a .env file and copy in DOMAIN variable your <domain_name> and in API_KEY variable your <api_key> from mailgun.
-3. Install the dependencies with the following commands:
+2. Create an account in mailgun and register the recipients' email. You can use these links as a guide:
+    1. Create account: <https://documentation.onesignal.com/docs/mailgun-setup>
+    2. Register and auhtorized recipients: <https://help.mailgun.com/hc/en-us/articles/217531258-Authorized-Recipients>
+> _Note. This step is required for the feature: send repository by e-mail.
+>        For free plan in mailgun is required register and authorized all the recipients for send the e-mail_
+4. Edit the .env.example file in the server directory for .env and copy in DOMAIN variable your <domain_name> and in API_KEY variable your <api_key> from mailgun.
+5. Install the dependencies with the following commands:
 ```
   yarn or npm install
 ```
-4. Run the application with the following commands:
+5. Run the application with the following commands:
 ```
 BackEnd from server directory:
   npm run dev
