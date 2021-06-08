@@ -30,8 +30,8 @@ GetRepository is an application that shows  Github's public repositories. It is 
 
 ## How to run
 1. Clone the repository.
-2. Create an account in mailgun (this step is required for the feature: send repository by e-mail).
-     1. Create a .env file and copy in DOMAIN variable your <domain_name> and in API_KEY variable your <api_key> from mailgun.
+2. Create an account in mailgun and register the recipients' email (this step is required for the feature: send repository by e-mail).
+     1. Edit a .env file and copy in DOMAIN variable your <domain_name> and in API_KEY variable your <api_key> from mailgun.
 3. Install the dependencies with the following commands:
 ```
   yarn or npm install
